@@ -31,7 +31,7 @@ const validateCustomer = (customer) => {
     phone: Joi.string().min(5).max(255).required().label("Phone"),
   });
 
-  return customerSchema.validate(customer);
+  return schema.validate(customer);
 };
 
 exports.Customer = Customer;

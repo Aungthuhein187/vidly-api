@@ -65,7 +65,7 @@ const validateRental = (rental) => {
     customerId: Joi.objectId().required(),
   });
 
-  return rentalSchema.validate(rental);
+  return schema.validate(rental);
 };
 
 exports.Rental = Rental;

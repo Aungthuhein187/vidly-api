@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Fawn = require("fawn");
+const _ = require("lodash");
 const { Rental, validate } = require("../models/rental");
 const { Movie } = require("../models/movie");
 const { Customer } = require("../models/customer");
@@ -33,16 +34,8 @@ router.post("/", async (req, res) => {
     return res.status(400).send("Movie is out of stock.");
 
   const rental = new Rental({
-    customer: {
-      _id: customer._id,
-      name: customer.name,
-      isGold: customer.isGold,
-      phone: customer.phone,
-    },
-    movie: {
-      title: movie.title,
-      dailyRentalRate: movie.dailyRentalRate,
-    },
+    customer: _.pick(customer, ["_id", "name", "isGold", "phone"]),
+    movie: _.pick(movie, ["_id", "title", "dailyRentalRate"]),
   });
 
   Fawn.Task()
@@ -65,16 +58,8 @@ router.put("/:id", async (req, res) => {
 
   const rental = await Rental.findByIdAndUpdate(req.params.id, {
     $set: {
-      customer: {
-        _id: customer._id,
-        name: customer.name,
-        isGold: customer.isGold,
-        phone: customer.phone,
-      },
-      movie: {
-        title: movie.title,
-        dailyRentalRate: movie.dailyRentalRate,
-      },
+      customer: _.pick(customer, ["_id", "name", "isGold", "phone"]),
+      movie: _.pick(movie, ["_id", "title", "dailyRentalRate"]),
     },
   });
 

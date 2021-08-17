@@ -17,7 +17,7 @@ const validateGenre = (genre) => {
   const schema = Joi.object({
     name: Joi.string().min(5).max(255).required().label("Name"),
   });
-  return genreSchema.validate(genre);
+  return schema.validate(genre);
 };
 
 exports.genreSchema = genreSchema;

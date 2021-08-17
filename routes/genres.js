@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const _ = require("lodash");
 const { Genre, validate } = require("../models/genre");
 
 router.get("/", async (req, res) => {
@@ -19,7 +20,7 @@ router.post("/", async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const genre = new Genre(req.body);
+  const genre = new Genre(_.pick(req.body, ["name"]));
   await genre.save();
 
   res.send(genre);
@@ -31,7 +32,7 @@ router.put("/:id", async (req, res) => {
 
   const genre = await Genre.findByIdAndUpdate(
     req.params.id,
-    { $set: req.body },
+    { $set: _.pick(req.body, ["name"]) },
     { new: true }
   );
   if (!genre) return res.status(404).send("Genre with given id is not found.");
