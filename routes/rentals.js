@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Fawn = require("fawn");
 const _ = require("lodash");
+const admin = require("../middlewares/admin");
 const auth = require("../middlewares/auth");
 const { Rental, validate } = require("../models/rental");
 const { Movie } = require("../models/movie");
@@ -67,7 +68,7 @@ router.put("/:id", auth, async (req, res) => {
   res.send(rental);
 });
 
-router.delete("/:id", auth, async (req, res) => {
+router.delete("/:id", [auth, admin], async (req, res) => {
   const rental = await Rental.findByIdAndDelete(req.params.id);
   if (!rental)
     return res.status(404).send("Rental with given id is already deleted.");

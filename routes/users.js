@@ -6,7 +6,7 @@ const router = express.Router();
 const { User, validate } = require("../models/user");
 
 router.get("/me", auth, async (req, res) => {
-  const user = await User.findById(req.user._id).select("-password");
+  const user = await User.findById(req.user._id).select("-password -__v");
   res.send(user);
 });
 
@@ -24,7 +24,7 @@ router.post("/", async (req, res) => {
 
   res
     .header("x-auth-token", user.generateAuthToken())
-    .send(_.pick(user, ["_id", "name", "email"]));
+    .send(_.pick(user, ["_id", "name", "email", "isAdmin"]));
 });
 
 module.exports = router;

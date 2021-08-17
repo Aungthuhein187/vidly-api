@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const _ = require("lodash");
+const admin = require("../middlewares/admin");
 const auth = require("../middlewares/auth");
 const { Customer, validate } = require("../models/customer");
 
@@ -44,7 +45,7 @@ router.put("/:id", auth, async (req, res) => {
   res.send(customer);
 });
 
-router.delete("/:id", auth, async (req, res) => {
+router.delete("/:id", [auth, admin], async (req, res) => {
   const customer = await Customer.findByIdAndDelete(req.params.id);
   if (!customer)
     return res.status(404).send("Customer with given id is already deleted.");

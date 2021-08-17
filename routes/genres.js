@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const _ = require("lodash");
+const admin = require("../middlewares/admin");
 const auth = require("../middlewares/auth");
 const { Genre, validate } = require("../models/genre");
 
@@ -41,7 +42,7 @@ router.put("/:id", auth, async (req, res) => {
   res.send(genre);
 });
 
-router.delete("/:id", auth, async (req, res) => {
+router.delete("/:id", [auth, admin], async (req, res) => {
   const genre = await Genre.findByIdAndDelete(req.params.id);
   if (!genre)
     return res.status(404).send("Genre with given id is already deleted.");
