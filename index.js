@@ -17,6 +17,7 @@ const home = require("./routes/home");
 const movies = require("./routes/movies");
 const rentals = require("./routes/rentals");
 const users = require("./routes/users");
+const consoleLogger = require("./log/logger");
 
 if (!config.get("jwtPrivateKey")) {
   console.error("FATAL ERROR: jwtPrivateKey is not defined.");
@@ -26,7 +27,10 @@ Fawn.init(mongoose);
 
 app.use(express.json());
 app.use(helmet());
-if (app.get("env") === "development") app.use(morgan("dev"));
+if (process.env.NODE_ENV !== "production") {
+  app.use(morgan("dev"));
+  consoleLogger;
+}
 
 app.use("/", home);
 app.use("/api/genres", genres);
