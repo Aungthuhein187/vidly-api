@@ -2,7 +2,10 @@ const { createLogger, format, transports } = require("winston");
 require("winston-mongodb");
 
 const logger = createLogger({
-  transports: [new transports.File({ filename: "path/to/combined.log" })],
+  transports: [
+    new transports.File({ filename: "path/to/combined.log" }),
+    new transports.MongoDB({ db: "mongodb://localhost/vidly" }),
+  ],
   exceptionHandlers: [
     new transports.File({ filename: "path/to/exceptions.log" }),
   ],

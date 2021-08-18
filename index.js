@@ -23,23 +23,6 @@ if (!config.get("jwtPrivateKey")) {
   console.error("FATAL ERROR: jwtPrivateKey is not defined.");
   process.exit(1);
 }
-Fawn.init(mongoose);
-
-app.use(express.json());
-app.use(helmet());
-if (process.env.NODE_ENV !== "production") {
-  app.use(morgan("dev"));
-  consoleLogger;
-}
-
-app.use("/", home);
-app.use("/api/genres", genres);
-app.use("/api/customers", customers);
-app.use("/api/movies", movies);
-app.use("/api/rentals", rentals);
-app.use("/api/users", users);
-app.use("/api/auth", auth);
-app.use(error);
 
 mongoose
   .connect("mongodb://localhost/vidly", {
@@ -49,6 +32,24 @@ mongoose
   })
   .then(() => console.log("Connected to mongodb..."))
   .catch((err) => console.error("Cannot connect to mongodb...", err));
+
+Fawn.init(mongoose);
+if (app.get("env") === "development") {
+  app.use(morgan("dev"));
+  consoleLogger;
+}
+
+app.use(express.json());
+app.use(helmet());
+
+app.use("/", home);
+app.use("/api/genres", genres);
+app.use("/api/customers", customers);
+app.use("/api/movies", movies);
+app.use("/api/rentals", rentals);
+app.use("/api/users", users);
+app.use("/api/auth", auth);
+app.use(error);
 
 const port = process.env.NODE_ENV || 3000;
 app.listen(port, () => {
