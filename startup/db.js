@@ -1,5 +1,8 @@
+const Fawn = require("fawn");
 const mongoose = require("mongoose");
-const winston = require("winston");
+const logger = require("./logging");
+
+Fawn.init(mongoose);
 
 module.exports = function () {
   mongoose
@@ -8,5 +11,5 @@ module.exports = function () {
       useNewUrlParser: true,
       useCreateIndex: true,
     })
-    .then(() => winston.log("Connected to mongodb..."));
+    .then(() => logger.info("Connected to mongodb..."));
 };
