@@ -1,8 +1,7 @@
-const { transports } = require("winston");
-const { logger } = require("../log/logger");
+const winston = require("winston");
 
 module.exports = function (err, req, res) {
-  logger.log({
+  winston.log({
     level: "error",
     message: err.message,
   });
