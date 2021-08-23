@@ -3,6 +3,7 @@ const router = express.Router();
 const _ = require("lodash");
 const admin = require("../middlewares/admin");
 const auth = require("../middlewares/auth");
+const validateObjectId = require("../middlewares/validateObjectId");
 const { Genre, validate } = require("../models/genre");
 
 router.get("/", async (req, res) => {
@@ -11,7 +12,7 @@ router.get("/", async (req, res) => {
   res.send(genres);
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", validateObjectId, async (req, res) => {
   const genre = await Genre.findById(req.params.id);
 
   if (!genre) return res.status(404).send("Genre with given id is not found.");

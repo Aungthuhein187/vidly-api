@@ -1,13 +1,11 @@
-const { createLogger, format, transports } = require("winston");
+const { createLogger, transports } = require("winston");
 require("winston-mongodb");
 require("express-async-errors");
 
 const logger = createLogger({
   level: "info",
   transports: [
-    new transports.Console({
-      format: format.combine(format.colorize(), format.simple()),
-    }),
+    new transports.Console(),
     new transports.File({ filename: "path/to/combined.log" }),
     new transports.MongoDB({
       db: "mongodb://localhost/vidly",

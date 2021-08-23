@@ -1,4 +1,5 @@
 const express = require("express");
+const logger = require("./startup/logging");
 const app = express();
 
 require("./startup/logging");
@@ -9,7 +10,7 @@ require("./startup/validation")();
 
 const port = process.env.PORT || 3000;
 const server = app.listen(port, () => {
-  console.log(`Listening at port ${port}.....`);
+  logger.info(`Listening at port ${port}.....`);
 });
 
 module.exports = server;
