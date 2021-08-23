@@ -11,8 +11,8 @@ describe("user.generateAuthToken()", () => {
     };
     const token = new User(payload).generateAuthToken();
 
-    const result = jwt.verify(token, config.get("jwtPrivateKey"));
+    const decoded = jwt.verify(token, config.get("jwtPrivateKey"));
 
-    expect(result).toMatchObject(payload);
+    expect(decoded).toMatchObject(payload);
   });
 });
