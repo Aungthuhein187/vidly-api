@@ -6,7 +6,7 @@ const { User } = require("../../../models/user");
 describe("user.generateAuthToken()", () => {
   it("should return valid jwt token", () => {
     const payload = {
-      _id: new mongoose.Types.ObjectId().toHexString(),
+      _id: mongoose.Types.ObjectId().toHexString(),
       isAdmin: true,
     };
     const token = new User(payload).generateAuthToken();

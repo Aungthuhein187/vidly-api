@@ -7,8 +7,8 @@ describe("/", () => {
     server = require("../../../index");
   });
 
-  afterEach(() => {
-    server.close();
+  afterEach(async () => {
+    await server.close();
   });
 
   it("GET /", async () => {

@@ -8,9 +8,10 @@ describe("/api/genres", () => {
   beforeEach(() => {
     server = require("../../../index");
   });
+
   afterEach(async () => {
-    server.close();
     await Genre.remove({});
+    await server.close();
   });
 
   describe("GET /", () => {
@@ -57,8 +58,8 @@ describe("/api/genres", () => {
     let token;
     let name;
 
-    const exec = async () => {
-      return await request(server)
+    const exec = () => {
+      return request(server)
         .post("/api/genres")
         .set("x-auth-token", token)
         .send({ name });
@@ -123,8 +124,8 @@ describe("/api/genres", () => {
     let genreId;
     let name;
 
-    const exec = async () => {
-      return await request(server)
+    const exec = () => {
+      return request(server)
         .put("/api/genres/" + genreId)
         .set("x-auth-token", token)
         .send({ name });
@@ -180,7 +181,7 @@ describe("/api/genres", () => {
     });
 
     it("should return 404 if the given genreId is not found", async () => {
-      genreId = new mongoose.Types.ObjectId();
+      genreId = mongoose.Types.ObjectId();
 
       const res = await exec();
 
@@ -198,8 +199,8 @@ describe("/api/genres", () => {
     let token;
     let genreId;
 
-    const exec = async () => {
-      return await request(server)
+    const exec = () => {
+      return request(server)
         .delete("/api/genres/" + genreId)
         .set("x-auth-token", token);
     };

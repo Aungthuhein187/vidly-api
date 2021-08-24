@@ -6,8 +6,8 @@ describe("Auth middleware", () => {
   let server;
   let token;
 
-  const exec = async () => {
-    return await request(server)
+  const exec = () => {
+    return request(server)
       .post("/api/genres")
       .set("x-auth-token", token)
       .send({ name: "genre1" });
@@ -15,17 +15,12 @@ describe("Auth middleware", () => {
 
   beforeEach(() => {
     server = require("../../../index");
-    const user = {
-      name: "Aung",
-      email: "aung@gmail.com",
-      password: "12345",
-    };
-    token = new User(user).generateAuthToken();
+    token = new User().generateAuthToken();
   });
 
   afterEach(async () => {
-    server.close();
     await Genre.remove({});
+    await server.close();
   });
 
   it("should return 401 if no token is provided", async () => {
