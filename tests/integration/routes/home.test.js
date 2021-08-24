@@ -10,6 +10,7 @@ describe("/", () => {
   afterEach(() => {
     server.close();
   });
+
   it("GET /", async () => {
     const res = await request(server).get("/").expect(200);
 

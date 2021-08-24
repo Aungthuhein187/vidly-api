@@ -69,7 +69,7 @@ describe("/api/genres", () => {
       name = "genre1";
     });
 
-    it("return 401 if client is not logged in", async () => {
+    it("should return 401 if client is not logged in", async () => {
       token = "";
 
       const res = await exec();
@@ -77,7 +77,7 @@ describe("/api/genres", () => {
       expect(res.status).toBe(401);
     });
 
-    it("return 400 if invalid token is provided", async () => {
+    it("should return 400 if invalid token is provided", async () => {
       token = "1234";
 
       const res = await exec();
@@ -85,7 +85,7 @@ describe("/api/genres", () => {
       expect(res.status).toBe(400);
     });
 
-    it("return 400 if genre is less than 5 characters", async () => {
+    it("should return 400 if genre is less than 5 characters", async () => {
       name = "1234";
 
       const res = await exec();
@@ -93,7 +93,7 @@ describe("/api/genres", () => {
       expect(res.status).toBe(400);
     });
 
-    it("return 400 if genre is more than 255 characters", async () => {
+    it("should return 400 if genre is more than 255 characters", async () => {
       name = new Array(257).join("a");
 
       const res = await exec();
@@ -139,7 +139,7 @@ describe("/api/genres", () => {
       name = "genre2";
     });
 
-    it("return 401 if client is not logged in", async () => {
+    it("should return 401 if client is not logged in", async () => {
       token = "";
 
       const res = await exec();
@@ -147,7 +147,7 @@ describe("/api/genres", () => {
       expect(res.status).toBe(401);
     });
 
-    it("return 400 if invalid token is provided", async () => {
+    it("should return 400 if invalid token is provided", async () => {
       token = "1234";
 
       const res = await exec();
@@ -155,7 +155,7 @@ describe("/api/genres", () => {
       expect(res.status).toBe(400);
     });
 
-    it("return 400 if genre is less than 5 characters", async () => {
+    it("should return 400 if genre is less than 5 characters", async () => {
       name = "1234";
 
       const res = await exec();
@@ -163,7 +163,7 @@ describe("/api/genres", () => {
       expect(res.status).toBe(400);
     });
 
-    it("return 400 if genre is more than 255 characters", async () => {
+    it("should return 400 if genre is more than 255 characters", async () => {
       name = new Array(257).join("a");
 
       const res = await exec();
@@ -171,7 +171,7 @@ describe("/api/genres", () => {
       expect(res.status).toBe(400);
     });
 
-    it("return 404 if the genreId is invalid", async () => {
+    it("should return 404 if the genreId is invalid", async () => {
       genreId = "1";
 
       const res = await exec();
@@ -179,7 +179,7 @@ describe("/api/genres", () => {
       expect(res.status).toBe(404);
     });
 
-    it("return 404 if the given genreId is not found", async () => {
+    it("should return 404 if the given genreId is not found", async () => {
       genreId = new mongoose.Types.ObjectId();
 
       const res = await exec();
@@ -220,7 +220,7 @@ describe("/api/genres", () => {
       await Genre.remove({});
     });
 
-    it("return 401 if client is not logged in", async () => {
+    it("should return 401 if client is not logged in", async () => {
       token = "";
 
       const res = await exec();
@@ -228,7 +228,7 @@ describe("/api/genres", () => {
       expect(res.status).toBe(401);
     });
 
-    it("return 400 if invalid token is provided", async () => {
+    it("should return 400 if invalid token is provided", async () => {
       token = "1234";
 
       const res = await exec();
@@ -236,7 +236,7 @@ describe("/api/genres", () => {
       expect(res.status).toBe(400);
     });
 
-    it("return 403 if client is not admin", async () => {
+    it("should return 403 if client is not admin", async () => {
       token = new User().generateAuthToken();
 
       const res = await exec();
@@ -244,14 +244,14 @@ describe("/api/genres", () => {
       expect(res.status).toBe(403);
     });
 
-    it("return 404 if genreId is invalid", async () => {
+    it("should return 404 if genreId is invalid", async () => {
       genreId = "1";
 
       const res = await exec();
       expect(res.status).toBe(404);
     });
 
-    it("return 404 if the genre is not found", async () => {
+    it("should return 404 if the genre is not found", async () => {
       genreId = new mongoose.Types.ObjectId();
 
       const res = await exec();
