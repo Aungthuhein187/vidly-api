@@ -27,7 +27,7 @@ router.post("/", auth, async (req, res) => {
   const genre = new Genre(_.pick(req.body, ["name"]));
   await genre.save();
 
-  res.send(genre);
+  res.status(201).send(genre);
 });
 
 router.put("/:id", auth, async (req, res) => {
