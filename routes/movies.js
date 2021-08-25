@@ -5,6 +5,7 @@ const admin = require("../middlewares/admin");
 const auth = require("../middlewares/auth");
 const validate = require("../middlewares/validate");
 const validateMovie = require("../validator/movie");
+const validateObjectId = require("../middlewares/validateObjectId");
 const { Movie } = require("../models/movie");
 const { Genre } = require("../models/genre");
 

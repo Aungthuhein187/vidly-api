@@ -6,6 +6,7 @@ const auth = require("../middlewares/auth");
 const Fawn = require("fawn");
 const validate = require("../middlewares/validate");
 const validateRentals = require("../validator/rental");
+const validateObjectId = require("../middlewares/validateObjectId");
 const { Rental } = require("../models/rental");
 const { Movie } = require("../models/movie");
 const { Customer } = require("../models/customer");
