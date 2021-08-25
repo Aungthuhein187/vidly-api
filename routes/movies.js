@@ -14,7 +14,7 @@ router.get("/", async (req, res) => {
   res.send(movies);
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", validateObjectId, async (req, res) => {
   const movie = await Movie.findById(req.params.id);
 
   if (!movie) return res.status(404).send("Movie with given id is not found.");
@@ -40,20 +40,25 @@ router.post("/", [auth, validate(validateMovie)], async (req, res) => {
   res.send(movie);
 });
 
-router.put("/:id", [auth, validate(validateMovie)], async (req, res) => {
-  const movie = await Movie.findByIdAndUpdate(
-    req.params.id,
-    {
-      $set: req.body,
-    },
-    { new: true }
-  );
-  if (!movie) return res.status(404).send("Movie with given id is not found.");
+router.put(
+  "/:id",
+  [auth, validateObjectId, validate(validateMovie)],
+  async (req, res) => {
+    const movie = await Movie.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: req.body,
+      },
+      { new: true }
+    );
+    if (!movie)
+      return res.status(404).send("Movie with given id is not found.");
 
-  res.send(movie);
-});
+    res.send(movie);
+  }
+);
 
-router.delete("/:id", [auth, admin], async (req, res) => {
+router.delete("/:id", [auth, validateObjectId, admin], async (req, res) => {
   const movie = await Movie.findByIdAndDelete(req.params.id);
   if (!movie) return res.status(404).send("Movie with given id is not found.");
 

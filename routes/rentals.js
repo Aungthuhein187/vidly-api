@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
   res.send(rentals);
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", validateObjectId, async (req, res) => {
   const rental = await Rental.findById(req.params.id);
   if (!rental)
     return res.status(404).send("Rental with given id is not found.");
@@ -47,24 +47,28 @@ router.post("/", [auth, validate(validateRentals)], async (req, res) => {
   res.send(rental);
 });
 
-router.put("/:id", [auth, validate(validateRentals)], async (req, res) => {
-  const customer = await Customer.findById(req.body.customerId);
-  if (!customer) return res.status(400).send("Invalid customer");
+router.put(
+  "/:id",
+  [auth, validateObjectId, validate(validateRentals)],
+  async (req, res) => {
+    const customer = await Customer.findById(req.body.customerId);
+    if (!customer) return res.status(400).send("Invalid customer");
 
-  const movie = await Movie.findById(req.body.movieId);
-  if (!movie) return res.status(400).send("Invalid movie");
+    const movie = await Movie.findById(req.body.movieId);
+    if (!movie) return res.status(400).send("Invalid movie");
 
-  const rental = await Rental.findByIdAndUpdate(req.params.id, {
-    $set: {
-      customer: _.pick(customer, ["_id", "name", "isGold", "phone"]),
-      movie: _.pick(movie, ["_id", "title", "dailyRentalRate"]),
-    },
-  });
+    const rental = await Rental.findByIdAndUpdate(req.params.id, {
+      $set: {
+        customer: _.pick(customer, ["_id", "name", "isGold", "phone"]),
+        movie: _.pick(movie, ["_id", "title", "dailyRentalRate"]),
+      },
+    });
 
-  res.send(rental);
-});
+    res.send(rental);
+  }
+);
 
-router.delete("/:id", [auth, admin], async (req, res) => {
+router.delete("/:id", [auth, validateObjectId, admin], async (req, res) => {
   const rental = await Rental.findByIdAndDelete(req.params.id);
   if (!rental)
     return res.status(404).send("Rental with given id is already deleted.");
