@@ -1,10 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const Fawn = require("fawn");
 const _ = require("lodash");
 const admin = require("../middlewares/admin");
 const auth = require("../middlewares/auth");
-const { Rental, validate } = require("../models/rental");
+const Fawn = require("fawn");
+const validate = require("../middlewares/validate");
+const validateRentals = require("../validator/rental");
+const { Rental } = require("../models/rental");
 const { Movie } = require("../models/movie");
 const { Customer } = require("../models/customer");
 
@@ -22,10 +24,7 @@ router.get("/:id", async (req, res) => {
   res.send(rental);
 });
 
-router.post("/", auth, async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
+router.post("/", [auth, validate(validateRentals)], async (req, res) => {
   const customer = await Customer.findById(req.body.customerId);
   if (!customer) return res.status(400).send("Invalid customer");
 
@@ -48,10 +47,7 @@ router.post("/", auth, async (req, res) => {
   res.send(rental);
 });
 
-router.put("/:id", auth, async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
+router.put("/:id", [auth, validate(validateRentals)], async (req, res) => {
   const customer = await Customer.findById(req.body.customerId);
   if (!customer) return res.status(400).send("Invalid customer");
 

@@ -1,4 +1,3 @@
-const Joi = require("joi");
 const mongoose = require("mongoose");
 
 const Rental = mongoose.model(
@@ -59,14 +58,4 @@ const Rental = mongoose.model(
   })
 );
 
-const validateRental = (rental) => {
-  const schema = Joi.object({
-    movieId: Joi.objectId().required(),
-    customerId: Joi.objectId().required(),
-  });
-
-  return schema.validate(rental);
-};
-
 exports.Rental = Rental;
-exports.validate = validateRental;

@@ -3,7 +3,9 @@ const router = express.Router();
 const _ = require("lodash");
 const admin = require("../middlewares/admin");
 const auth = require("../middlewares/auth");
-const { Movie, validate } = require("../models/movie");
+const validate = require("../middlewares/validate");
+const validateMovie = require("../validator/movie");
+const { Movie } = require("../models/movie");
 const { Genre } = require("../models/genre");
 
 router.get("/", async (req, res) => {
@@ -20,12 +22,7 @@ router.get("/:id", async (req, res) => {
   res.send(movie);
 });
 
-router.post("/", auth, async (req, res) => {
-  console.log(req.body);
-
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
+router.post("/", [auth, validate(validateMovie)], async (req, res) => {
   const genre = await Genre.findById(req.body.genreId);
   if (!genre) return res.status(400).send("Invalid genre.");
 
@@ -43,10 +40,7 @@ router.post("/", auth, async (req, res) => {
   res.send(movie);
 });
 
-router.put("/:id", auth, async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
+router.put("/:id", [auth, validate(validateMovie)], async (req, res) => {
   const movie = await Movie.findByIdAndUpdate(
     req.params.id,
     {

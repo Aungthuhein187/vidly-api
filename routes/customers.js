@@ -3,7 +3,9 @@ const router = express.Router();
 const _ = require("lodash");
 const admin = require("../middlewares/admin");
 const auth = require("../middlewares/auth");
-const { Customer, validate } = require("../models/customer");
+const validate = require("../middlewares/validate");
+const validateCustomer = require("../validator/customer");
+const { Customer } = require("../models/customer");
 
 router.get("/", async (req, res) => {
   const customers = await Customer.find().sort("name");
@@ -20,20 +22,14 @@ router.get("/:id", async (req, res) => {
   res.send(customer);
 });
 
-router.post("/", auth, async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
+router.post("/", [auth, validate(validateCustomer)], async (req, res) => {
   const customer = new Customer(_.pick(req.body, ["name", "isGold", "phone"]));
   await customer.save();
 
   res.send(customer);
 });
 
-router.put("/:id", auth, async (req, res) => {
-  const { error } = validate(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
+router.put("/:id", [auth, validate(validateCustomer)], async (req, res) => {
   const customer = await Customer.findByIdAndUpdate(
     req.params.id,
     { $set: _.pick(req.body, ["name", "isGold", "phone"]) },

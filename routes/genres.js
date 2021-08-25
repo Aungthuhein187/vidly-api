@@ -4,8 +4,9 @@ const _ = require("lodash");
 const admin = require("../middlewares/admin");
 const auth = require("../middlewares/auth");
 const validate = require("../middlewares/validate");
+const validateGenre = require("../validator/genre");
 const validateObjectId = require("../middlewares/validateObjectId");
-const { Genre, validateGenre } = require("../models/genre");
+const { Genre } = require("../models/genre");
 
 router.get("/", async (req, res) => {
   const genres = await Genre.find().sort("name");
