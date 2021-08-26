@@ -6,17 +6,13 @@ require("express-async-errors");
 const logger = createLogger({
   level: "info",
   transports: [
-    new transports.File({ filename: "path/to/combined.log" }),
+    new transports.File({ filename: "log/combined.log" }),
     new transports.MongoDB({
       db: config.get("db"),
     }),
   ],
-  exceptionHandlers: [
-    new transports.File({ filename: "path/to/exceptions.log" }),
-  ],
-  rejectionHandlers: [
-    new transports.File({ filename: "path/to/rejections.log" }),
-  ],
+  exceptionHandlers: [new transports.File({ filename: "log/exceptions.log" })],
+  rejectionHandlers: [new transports.File({ filename: "log/rejections.log" })],
 });
 
 if (process.env.NODE_ENV !== "production") {
