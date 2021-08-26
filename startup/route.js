@@ -7,12 +7,10 @@ const rentals = require("../routes/rentals");
 const returns = require("../routes/returns");
 const users = require("../routes/users");
 const express = require("express");
-const helmet = require("helmet");
 const error = require("../middlewares/error");
 
 module.exports = function (app) {
   app.use(express.json());
-  app.use(helmet());
   app.use("/", home);
   app.use("/api/genres", genres);
   app.use("/api/customers", customers);

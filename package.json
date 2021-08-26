@@ -4,8 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watchAll --detectOpenHandles  --verbose --coverage"
+    "test": "jest --watchAll --detectOpenHandles  --verbose --coverage",
+    "start": "node index.js"
   },
+  "engines": {
+    "node": "14.17.4"
+  }
+  ,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Aungthuhein187/vidly-api.git"
@@ -19,6 +24,7 @@
   "homepage": "https://github.com/Aungthuhein187/vidly-api#readme",
   "dependencies": {
     "bcrypt": "^5.0.1",
+    "compression": "^1.7.4",
     "config": "^3.3.6",
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
